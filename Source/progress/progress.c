@@ -10,7 +10,7 @@
 #include <proto/utility.h>
 #include <proto/graphics.h>
 #include <proto/intuition.h>
-
+#include <gadgets/progress.h>
 #include <graphics/gfxmacros.h>
 #include <exec/memory.h>
 #include <libraries/gadtools.h>
@@ -20,7 +20,6 @@
 #include <intuition/gadgetclass.h>
 #include <intuition/intuitionbase.h>
 
-#include "progress.h"
 #include "progress.gadget_rev.h"
 
 TEXT version[]=VERSTAG;
