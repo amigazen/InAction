@@ -2,21 +2,7 @@
 # Makefile for BOOPSI objects by Tomasz Muszynski
 #
 
-all: progress.gadget listview.gadget smartbitmap.image page.gadget install
-
-progress.gadget: progress.o
-  slink <WITH <
-LIBPREFIX _
-LIBFD progress.fd
-TO progress.gadget
-FROM lib:libent.o lib:libinit.o progress.o
-LIB lib:sc.lib lib:amiga.lib
-NOICONS
-SC
-SD
-ND
-LIBVERSION 37 LIBREVISION 1
-<
+all: page.gadget
 
 page.gadget: page.o
   slink <WITH <
@@ -29,78 +15,32 @@ NOICONS
 SC
 SD
 ND
-LIBVERSION 37 LIBREVISION 1
-<
-
-listview.gadget: listview.o
-  slink <WITH <
-LIBPREFIX _
-LIBFD listview.fd
-TO listview.gadget
-FROM lib:libent.o lib:libinit.o listview.o
-LIB lib:sc.lib lib:amiga.lib
-NOICONS
-SC
-SD
-ND
-LIBVERSION 37 LIBREVISION 2
-<
-
-smartbitmap.image: smartbitmap.o
-  slink <WITH <
-LIBPREFIX _
-LIBFD smartbitmap.fd
-TO smartbitmap.image
-FROM lib:libent.o lib:libinit.o smartbitmap.o
-LIB lib:sc.lib lib:amiga.lib
-NOICONS
-SC
-SD
-ND
-LIBVERSION 39 LIBREVISION 1
+LIBVERSION 37 LIBREVISION 3
 <
 
 ###########################
 # Dependences
 
-progress.o: progress.c progress.gadget_rev.h
-  sc progress.c
-listview.o: listview.c listview.gadget_rev.h
-  sc listview.c
-smartbitmap.o: smartbitmap.c smartbitmap.image_rev.h
-  sc smartbitmap.c
+page.o: page.c page.gadget_rev.h
+  sc page.c
 
 ###########################
 # Other
 
 # Bump version
-bumprev_progress:
-  @-bumprev 37 progress.gadget_rev
-bumprev_listview:
-  @-bumprev 37 listview.gadget_rev
-bumprev_smartbitmap:
-  @-bumprev 39 smartbitmap.image_rev
+
 bumprev_page:
-  @-bumprev 37 page.image_rev
+  @-bumprev 37 page.gadget_rev
 
 # Make pragma
-pragma: progress.fd listview.fd smartbitmap.fd
-  @-fd2pragma progress.fd Include:pragmas/progress_pragmas.h
-  @-fd2pragma listview.fd Include:pragmas/listview_pragmas.h
-  @-fd2pragma smartbitmap.fd Include:pragmas/smartbitmap_pragmas.h
-  @-fd2pragma page.fd Include:pragmas/page_pragmas.h
+pragma: page.fd
+  @-fd2pragma page.fd //SDK/Include_h/pragmas/page_pragmas.h
 
 # Make autodocs
-autodocs: progress_gc.src listview_gc.src smartbitmap_ic.src
-  @-autodoc -C -I progress_gc.src >progress_gc.doc
-  @-autodoc -C -I listview_gc.src >listview_gc.doc
-  @-autodoc -C -I smartbitmap_ic.src >smartbitmap_ic.doc
-  @-autodoc -C -I page_ic.src >page_ic.doc
+autodocs: page_gc.src
+  @-autodoc -C -I page_gc.src >page_gc.doc
 
 # Install it
 install:
-  @-copy progress.gadget SYS:Classes/Gadgets
-  @-copy listview.gadget SYS:Classes/Gadgets
-  @-copy page.gadget SYS:Classes/Gadgets
-  @-copy smartbitmap.image SYS:Classes/Images
+  @-copy page.gadget //SDK/Classes/Gadgets/page.gadget CLONE
   @-avail FLUSH

@@ -1,26 +1,28 @@
 /*
 ** Page Class
-** $VER: page.c 37.1 (15.1.98)
+** $VER: page.c 37.3 (28.10.25)
 */
 
-#include<dos.h>
-#include<string.h>
-#include<clib/macros.h>
-#include<proto/exec.h>
-#include<proto/utility.h>
-#include<proto/graphics.h>
-#include<proto/intuition.h>
-#include<proto/gadtools.h>
-#include<proto/layers.h>
-#include<gadgets/page.h>
-#include<graphics/gfxmacros.h>
-#include<exec/memory.h>
-#include<libraries/gadtools.h>
-#include<intuition/imageclass.h>
-#include<intuition/gadgetclass.h>
-#include<intuition/intuitionbase.h>
-#include<intuition/icclass.h>
-#include"page.gadget_rev.h"
+#include <dos.h>
+#include <string.h>
+#include <clib/macros.h>
+#include <proto/exec.h>
+#include <proto/utility.h>
+#include <proto/graphics.h>
+#include <proto/intuition.h>
+#include <proto/gadtools.h>
+#include <proto/layers.h>
+#include <gadgets/page.h>
+#include <graphics/gfxmacros.h>
+#include <exec/memory.h>
+#include <libraries/gadtools.h>
+#include <intuition/imageclass.h>
+#include <intuition/gadgetclass.h>
+#include <intuition/intuitionbase.h>
+#include <intuition/icclass.h>
+
+#include "page.h"
+#include "page.gadget_rev.h"
 
 TEXT version[]=VERSTAG;
 
@@ -57,6 +59,12 @@ void PAGE_GetGadgetRect( Object *,struct GadgetInfo *,struct Rectangle *);
 void SPrintf(Class *,STRPTR buffer, STRPTR format, ...);
 ULONG TextFitColor(struct RastPort *,STRPTR,ULONG,struct TextExtent *,struct TextExtent *,WORD,UWORD,UWORD);
 void TextColor(Class *,Object *,struct RastPort *,STRPTR,ULONG,struct DrawInfo *,struct IBox *);
+
+/* BOOPSI function prototypes */
+ULONG DoSuperMethodA(Class *, Object *, Msg);
+ULONG DoMethod(Object *, ULONG, ...);
+ULONG CoerceMethod(Class *, Object *, ULONG, ...);
+ULONG CallHook(struct Hook *, void *, ULONG, ...);
 
 /*
 ** Variables
@@ -238,7 +246,7 @@ ULONG SAVEDS PAGE_DISPOSE(Class *cl, Object *o, Msg msg )
 	geta4();
 
 	if(PG->pg_FrameImage) DisposeObject(PG->pg_FrameImage);
-	return( DoSuperMethodA(cl, o, msg) );
+	return( (ULONG)DoSuperMethodA(cl, o, msg) );
 }
 
 /*
@@ -421,7 +429,7 @@ ULONG SAVEDS PAGE_NOTIFY(Class *cl,Object *o,struct opUpdate *opu )
 	if( opu->opu_AttrList == NULL ) { PAGE_SetTagArg(tags[2], TAG_END, NULL); }
 	else PAGE_SetTagArg(tags[2], TAG_MORE, opu->opu_AttrList );
 
-	return( DoSuperMethod(cl, o, OM_NOTIFY, tags, opu->opu_GInfo, opu->opu_Flags) );
+	return( (ULONG)DoSuperMethod(cl, o, OM_NOTIFY, tags, opu->opu_GInfo, opu->opu_Flags) );
 }
 
 ULONG SAVEDS PAGE_RENDER(Class *cl,Object *o,struct gpRender *gpr )
@@ -430,7 +438,7 @@ ULONG SAVEDS PAGE_RENDER(Class *cl,Object *o,struct gpRender *gpr )
 	struct Gadget *gad = (struct Gadget *)o;
 	struct Rectangle rect;
 	struct DrawInfo *dri;
-	struct IBox container,box;
+	struct IBox container;
 	struct TextExtent temp_te;
 	struct RastPort *RP = gpr->gpr_RPort;
 	struct PAGEData *PG = INST_DATA( cl, o );

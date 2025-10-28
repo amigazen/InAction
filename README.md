@@ -38,8 +38,10 @@ InAction therefore aims to make these additional BOOPSI classes, which add a var
 
 ## InAction BOOPSI classes
 
--**page.gadget** - a container gadget enabling multi-page views within a window.
--**progress.gadget** - a progress bar gadget for illustrating progress of a long running operation.
+-**listview.gadget** - a list view gadget originally included in GadToolsBox 3.0
+-**page.gadget** - a container gadget enabling multi-page views within a window. Originally by Jens Tröger, this is based on the refactored version included in GadToolsBox 3.0
+-**progress.gadget** - a progress bar gadget for illustrating progress of a long running operation. Originally included in GadToolsBox 3.0
+-**smartbitmap.image** - a smart bitmap image class. Originally included in GadToolsBox 3.0
 
 ## About ToolKit
 

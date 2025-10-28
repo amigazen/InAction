@@ -1,14 +1,14 @@
-VERSION		EQU	39
-REVISION	EQU	1
+VERSION		EQU	39	
+REVISION	EQU	2
 DATE	MACRO
-		dc.b	'10.1.98'
+		dc.b	'28.10.25'
 	ENDM
 VERS	MACRO
-		dc.b	'smartbitmap.image 39.1'
+		dc.b	'smartbitmap.image 39.2'
 	ENDM
 VSTRING	MACRO
-		dc.b	'smartbitmap.image 39.1 (10.1.98)',13,10,0
+		dc.b	'smartbitmap.image 39.2 (28.10.25)',13,10,0
 	ENDM
 VERSTAG	MACRO
-		dc.b	0,'$VER: smartbitmap.image 39.1 (10.1.98)',0
+		dc.b	0,'$VER: smartbitmap.image 39.2 (28.10.25)',0
 	ENDM

@@ -3,24 +3,27 @@
 ** $VER: listview.c 37.1 (15.1.98)
 */
 
-#include<dos.h>
-#include<string.h>
-#include<clib/macros.h>
-#include<proto/exec.h>
-#include<proto/utility.h>
-#include<proto/graphics.h>
-#include<proto/intuition.h>
-#include<proto/gadtools.h>
-#include<proto/layers.h>
-#include<gadgets/listview.h>
-#include<graphics/gfxmacros.h>
-#include<exec/memory.h>
-#include<libraries/gadtools.h>
-#include<intuition/imageclass.h>
-#include<intuition/gadgetclass.h>
-#include<intuition/intuitionbase.h>
-#include<intuition/icclass.h>
-#include"listview.gadget_rev.h"
+#include <dos.h>
+#include <string.h>
+#include <clib/macros.h>
+#include <proto/exec.h>
+#include <proto/utility.h>
+#include <proto/graphics.h>
+#include <proto/intuition.h>
+#include <proto/gadtools.h>
+#include <proto/layers.h>
+#include <clib/alib_protos.h>
+#include <gadgets/listview.h>
+#include <graphics/gfxmacros.h>
+#include <exec/memory.h>
+#include <libraries/gadtools.h>
+#include <intuition/classes.h>
+#include <intuition/classusr.h>
+#include <intuition/imageclass.h>
+#include <intuition/gadgetclass.h>
+#include <intuition/intuitionbase.h>
+#include <intuition/icclass.h>
+#include "listview.gadget_rev.h"
 
 TEXT version[]=VERSTAG;
 
@@ -59,6 +62,12 @@ void LIST_GetGadgetRect( Object *,struct GadgetInfo *,struct Rectangle *);
 void SPrintf(Class *,STRPTR buffer, STRPTR format, ...);
 void TextColor(Class *,Object *,struct RastPort *,STRPTR,ULONG,struct DrawInfo *,struct IBox *);
 void LineOut(Class *,Object *,struct RastPort *,struct LVNode *,struct IBox *,ULONG,struct DrawInfo *);
+
+/* BOOPSI function prototypes */
+ULONG DoSuperMethodA(Class *, Object *, Msg);
+ULONG DoMethod(Object *, ULONG, ...);
+ULONG CoerceMethod(Class *, Object *, ULONG, ...);
+ULONG DoSuperMethod(Class *, Object *, ULONG, ...);
 
 /*
 ** Variables
@@ -519,7 +528,7 @@ ULONG SAVEDS LIST_DISPOSE(Class *cl, Object *o, Msg msg )
 	if(LD->ld_StringClass) FreeClass(LD->ld_StringClass);
 	if(LD->ld_FrameImage) DisposeObject(LD->ld_FrameImage);
 	if(LD->ld_ColPos) FreeVec(LD->ld_ColPos);
-	return( DoSuperMethodA(cl, o, msg) );
+	return( (ULONG)DoSuperMethodA(cl, o, msg) );
 }
 
 /*

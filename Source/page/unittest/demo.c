@@ -3,7 +3,7 @@
  *
  * demo-programm of the BOOPSI class "page.gadget"
  *
- * this custom-class is copyright (C) 1996 by Jens Tröger
+ * this custom-class is copyright (C) 1996 by Jens Trï¿½ger
  *
  */
 
@@ -42,8 +42,7 @@ struct Window *myWindow;
 struct Gadget *myPageGadget;
 struct IntuiMessage *myIMsg;
 
-IClass *myPageClass = NULL;							/* this will hold the pointer
-																					 to the private class */
+IClass *myPageClass = NULL;							/* this will hold the pointer to the private class */
 
 struct TextAttr tattr = { "topaz.font", 8, 0, 0 };
 struct TextFont *tfont;
@@ -57,6 +56,7 @@ struct TextFont *tfont;
 struct Gadget *createPageGadget(void);
 struct Gadget *createGadgets(void);
 void myHookFunction(struct Hook *, struct Gadget *, struct PageHookObject *);
+Class *GetPageClass(void);
 
 /********************************************************************
  *
@@ -274,7 +274,7 @@ void main(void)
 					{
 						/* get the pointer to the class (is always valid if the gadget
 						   is successfully open */
-						myPageClass = PAGE_GetClass();
+						myPageClass = GetPageClass();
 
 						/* open window (sorry not font sensitive for this demo) */
 						if (myWindow = OpenWindowTags(NULL,
@@ -285,7 +285,7 @@ void main(void)
 																										IDCMP_NEWSIZE|IDCMP_VANILLAKEY,
 																					WA_InnerWidth, 	470,
 																					WA_InnerHeight,	150,
-																					WA_Title, "PageGadget DEMO   © 1996 by Jens Tröger",
+																					WA_Title, "PageGadget DEMO   ï¿½ 1996 by Jens Trï¿½ger",
 																					WA_Activate, TRUE,
 																					WA_MaxWidth, ~0,
 																					TAG_DONE))
@@ -457,7 +457,7 @@ struct Gadget *createPageGadget(void)
 
 		/* init the hook */
 		hook6.h_Entry = HookEntry;
-		hook6.h_SubEntry = (APTR) myHookFunction;
+		hook6.h_SubEntry = (HOOKFUNC) myHookFunction;
 		hook6.h_Data = NULL;
 
 		/* create the gadget */
@@ -490,13 +490,22 @@ struct Gadget *createGadgets(void)
 	{
 		APTR vi = GetVisualInfo(myWindow -> WScreen, NULL);
 		struct Gadget *gadget = NULL, *context = NULL;
-		struct NewGadget newGad = { 0, 0, 60, 17,
-																"Button", &tattr, 0, PLACETEXT_IN,
-																vi, NULL };
+		struct NewGadget newGad;
 		WORD x, y, id = 2;
 
 		if (vi)
 			{
+				newGad.ng_LeftEdge = 0;
+				newGad.ng_TopEdge = 0;
+				newGad.ng_Width = 60;
+				newGad.ng_Height = 17;
+				newGad.ng_GadgetText = "Button";
+				newGad.ng_TextAttr = &tattr;
+				newGad.ng_Flags = 0;
+				newGad.ng_PlaceText = PLACETEXT_IN;
+				newGad.ng_VisualInfo = vi;
+				newGad.ng_UserData = NULL;
+				
 				gadget = CreateContext(&gadget);
 				context = gadget;
 

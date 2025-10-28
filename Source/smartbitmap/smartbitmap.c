@@ -1,6 +1,6 @@
 /*
 ** Smart Bitmap Image Class
-** $VER: smartbitmap.c 39.1 (10.1.98)
+** $VER: smartbitmap.c 39.2 (28.10.25)
 */
 
 #include<dos.h>
