@@ -39,6 +39,7 @@ InAction therefore aims to make these additional BOOPSI classes, which add a var
 ## InAction BOOPSI classes
 
 -**page.gadget** - a container gadget enabling multi-page views within a window.
+-**progress.gadget** - a progress bar gadget for illustrating progress of a long running operation.
 
 ## About ToolKit
 
@@ -56,7 +57,7 @@ Each component of **ToolKit** is open source and will have it's own github repo,
 
 The ReAction class library, derived from the original ClassAct by Finale Development (Chris Aldi et al) is the 'official' set of BOOPSI classes to use for Amiga applications development, and has been included in all new versions of the operating system released after the closure of Commodore.
 
-InAction aims to be a complementary to ReAction, adding additional classes with mostly different functionality for a greater variety of user interface paradigms. 
+InAction aims to be complementary to ReAction, adding additional classes with mostly different functionality for a greater variety of user interface paradigms. 
 
 ### What's with the name 'InAction'?
 
@@ -73,5 +74,3 @@ InAction is a reference to "Intuition in action". It's definitely not a veiled r
 ## Acknowledgements
 
 *Amiga* is a trademark of **Amiga Inc**. 
-
-Original AWeb by Yvon Rozijn, released as AWeb APL to the open source community

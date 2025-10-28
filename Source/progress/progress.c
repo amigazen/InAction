@@ -1,23 +1,27 @@
 /*
 ** Progress Class
-** $VER: progress.c 37.1 (15.1.98)
+** $VER: progress.c 37.2 (28.10.25)
 */
 
-#include<dos.h>
-#include<string.h>
-#include<clib/macros.h>
-#include<proto/exec.h>
-#include<proto/utility.h>
-#include<proto/graphics.h>
-#include<proto/intuition.h>
-#include<gadgets/progress.h>
-#include<graphics/gfxmacros.h>
-#include<exec/memory.h>
-#include<libraries/gadtools.h>
-#include<intuition/imageclass.h>
-#include<intuition/gadgetclass.h>
-#include<intuition/intuitionbase.h>
-#include"progress.gadget_rev.h"
+#include <dos.h>
+#include <string.h>
+#include <clib/macros.h>
+#include <proto/exec.h>
+#include <proto/utility.h>
+#include <proto/graphics.h>
+#include <proto/intuition.h>
+
+#include <graphics/gfxmacros.h>
+#include <exec/memory.h>
+#include <libraries/gadtools.h>
+#include <intuition/classes.h>
+#include <intuition/classusr.h>
+#include <intuition/imageclass.h>
+#include <intuition/gadgetclass.h>
+#include <intuition/intuitionbase.h>
+
+#include "progress.h"
+#include "progress.gadget_rev.h"
 
 TEXT version[]=VERSTAG;
 
@@ -37,7 +41,6 @@ typedef ULONG (*HookFunction)(void);
 ** Prototypes
 */
 
-Class * ASMFUNC GetProgressClass(void);
 ULONG ASMFUNC PROG_Dispatcher(REG(a0) Class *,REG(a2) Object *,REG(a1) Msg);
 ULONG PROG_NEW(Class *,Object *,struct opSet *);
 ULONG PROG_DISPOSE(Class *, Object *, Msg);
@@ -48,6 +51,12 @@ ULONG PROG_NOTIFY(Class *,Object *,struct opUpdate *);
 ULONG PROG_RENDER(Class *,Object *,struct gpRender *);
 void PROG_GetGadgetRect( Object *,struct GadgetInfo *,struct Rectangle *);
 void SPrintf(Class *,STRPTR buffer, STRPTR format, ...);
+
+/* BOOPSI function prototypes */
+ULONG DoSuperMethodA(Class *, Object *, Msg);
+ULONG DoMethod(Object *, ULONG, ...);
+ULONG CoerceMethod(Class *, Object *, ULONG, ...);
+ULONG DoSuperMethod(Class *, Object *, ULONG, ...);
 
 /*
 ** Variables
@@ -105,7 +114,7 @@ void ASMFUNC __UserLibCleanup(REG(a6) struct MyLibrary *libbase)
 }
 
 
-Class * ASMFUNC GetProgressClass()
+Class * ASMFUNC GetProgressClass(void)
 {
 	return cl;
 }
@@ -210,7 +219,7 @@ ULONG SAVEDS PROG_DISPOSE(Class *cl, Object *o, Msg msg )
 	geta4();
 
 	if(PD->pd_FrameImage) DisposeObject(PD->pd_FrameImage);
-	return( DoSuperMethodA(cl, o, msg) );
+	return( (ULONG)DoSuperMethodA(cl, o, msg) );
 }
 
 /*
@@ -375,7 +384,7 @@ ULONG SAVEDS PROG_NOTIFY(Class *cl,Object *o,struct opUpdate *opu )
 	}
 	else PROG_SetTagArg(tags[2], TAG_MORE, opu->opu_AttrList );
 
-	return( DoSuperMethod(cl, o, OM_NOTIFY, tags, opu->opu_GInfo, opu->opu_Flags) );
+	return( (ULONG)DoSuperMethod(cl, o, OM_NOTIFY, tags, opu->opu_GInfo, opu->opu_Flags) );
 }
 
 ULONG SAVEDS PROG_RENDER(Class *cl,Object *o,struct gpRender *gpr )

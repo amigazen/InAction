@@ -1,14 +1,14 @@
 VERSION		EQU	37
-REVISION	EQU	1
+REVISION	EQU	2
 DATE	MACRO
-		dc.b	'15.1.98'
+		dc.b	'28.10.25'
 	ENDM
 VERS	MACRO
-		dc.b	'progress.gadget 37.1'
+		dc.b	'progress.gadget 37.2'
 	ENDM
 VSTRING	MACRO
-		dc.b	'progress.gadget 37.1 (15.1.98)',13,10,0
+		dc.b	'progress.gadget 37.2 (28.10.25)',13,10,0
 	ENDM
 VERSTAG	MACRO
-		dc.b	0,'$VER: progress.gadget 37.1 (15.1.98)',0
+		dc.b	0,'$VER: progress.gadget 37.2 (28.10.25)',0
 	ENDM
